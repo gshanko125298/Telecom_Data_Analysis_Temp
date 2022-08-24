@@ -26,7 +26,7 @@
 
 # Data cleaing stars form uploading Data
 
-# In[75]:
+# In[6]:
 
 
 import pandas as pd
@@ -34,7 +34,7 @@ import numpy as np
 from IPython.display import Image
 
 
-# In[76]:
+# In[7]:
 
 
 tele=pd.read_csv(r"C:\Users\Genet Shanko\Desktop\Week_1_challange\Week1_challenge_data_source(CSV).csv",na_values=['numeric_only',None])
@@ -43,7 +43,7 @@ tele.head()
 
 # The above telocm data have 5 rows with 55 column. the follwoing data shows the number of column avialbe in the dataset
 
-# In[77]:
+# In[8]:
 
 
 tele.columns.tolist()
@@ -51,19 +51,19 @@ tele.columns.tolist()
 
 # to have general information about the dat frame
 
-# In[112]:
+# In[9]:
 
 
 tele.info()
 
 
-# In[78]:
+# In[10]:
 
 
 len(tele.columns)
 
 
-# In[79]:
+# In[11]:
 
 
 totalcells= len(tele)
@@ -72,13 +72,13 @@ totalcells
 
 # To exploer the types and number of data points, the follwoing code may support
 
-# In[80]:
+# In[12]:
 
 
 tele.shape
 
 
-# In[81]:
+# In[13]:
 
 
 print(f" There are {tele.shape[0]} rows and {tele.shape[1]} columns")
@@ -86,7 +86,7 @@ print(f" There are {tele.shape[0]} rows and {tele.shape[1]} columns")
 
 # To identifay the null value within the dataset 
 
-# In[82]:
+# In[14]:
 
 
 tele.isnull()
@@ -94,13 +94,13 @@ tele.isnull()
 
 # To explor the number of the null value in each column and totol null value as a whole 
 
-# In[83]:
+# In[15]:
 
 
 tele.isnull().sum()
 
 
-# In[84]:
+# In[16]:
 
 
 tele.isnull().sum().sum()
@@ -110,59 +110,59 @@ tele.isnull().sum().sum()
 
 # Before handling the missing value , let us check the data distrbusion 
 
-# In[96]:
+# In[17]:
 
 
 missingCount = tele.isnull().sum()
 missingCount
 
 
-# In[97]:
+# In[18]:
 
 
 totalMissing = missingCount.sum()
 totalMissing
 
 
-# In[98]:
+# In[19]:
 
 
 totalCells = np.product(tele.shape)
 totalCells 
 
 
-# In[99]:
+# In[20]:
 
 
 
 print("The Telecome dataset contains", round(((totalMissing/totalcells)*100), 2), "%", "missing values.")
 
 
-# In[100]:
+# In[21]:
 
 
 tele.isna().sum()
 
 
-# In[101]:
+# In[22]:
 
 
 tele.skew(axis=0)
 
 
-# In[ ]:
+# In[23]:
 
 
 To veiw the data types of each of the 
 
 
-# In[95]:
+# In[24]:
 
 
 tele.dtypes
 
 
-# In[103]:
+# In[25]:
 
 
 import seaborn as sns
@@ -171,13 +171,13 @@ sns.displot(data=tele, x=tele['Handset Manufacturer'])
 
 # the following figure shows the number of handset manfacturer  and the number appratus used by custmers
 
-# In[109]:
+# In[26]:
 
 
 tele['Handset Manufacturer'].hist()
 
 
-# In[ ]:
+# In[27]:
 
 
 tele['Handset Type'].hist()
@@ -194,27 +194,12 @@ tele['Handset Type'].hist()
 # In[ ]:
 
 
-def find_min_max_in(df, col):
-    """
-    The function takes in a column and returns the top 5
-    and bottom 5 movies dataframe in that column.
-    args:
-        col: string - column name
-    return:
-        info_df: dataframe - final 5 movies dataframe
-    """
-    top = df[col].idxmax()
-    top_df = pd.DataFrame(df.loc[top])
-    bottom = df[col].idxmin()
-    bottom_df = pd.DataFrame(df.loc[bottom])
-    info_df = pd.concat([top_df, bottom_df], axis=1)
-    return info_df
-find_min_max_in(movies_df, 'budget')
+
 
 
 # Drope single value column
 
-# In[113]:
+# In[32]:
 
 
 tele_data=tele.copy()
@@ -227,7 +212,7 @@ print('\n\nRemaining Columns => ' + str(len(tele.columns)))
 
 # to count  duplicated column use 
 
-# In[117]:
+# In[33]:
 
 
 # Count of duplicates
@@ -237,47 +222,126 @@ tele_dup=tele.drop_duplicates(keep='first', inplace=True)
 #tele.drop_duplicates(subset=['custem_ID', 'PROGRAM', 'MACHINE'], keep='first', inplace=True)
 
 
-# In[118]:
+# In[34]:
 
 
 print(tele_dup)
 
 
-# In[119]:
+# In[35]:
 
 
 missing_values = ["n/a", "na", "--"]
 
 
-# In[120]:
+# In[36]:
 
 
 tele.head()
 
 
-# In[ ]:
+#  how to drope a row 
+
+# In[37]:
 
 
+# Drop rows containing all missing values
+ 
+# drop columns with more than 30% missing values
+tele_clean = tele.drop(['Start ms', 'End ms', 'Start', 'End','DL TP < 50 Kbps (%)','250 Kbps < DL TP < 1 Mbps (%)',
+                        'DL TP > 1 Mbps (%)','UL TP < 10 Kbps (%)','UL TP < 10 Kbps (%)','10 Kbps < UL TP < 50 Kbps (%)','UL TP > 300 Kbps (%)'], axis=1)
+tele_clean.shape
 
 
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
+# for filling the missing value
 
 # In[ ]:
 
 
+def fix_missing_ffill(tele_clean, col):
+    tele_clean[col] = tele_clean[col].fillna(method='ffill')
+    return tele_clean[col]
 
 
+def fix_missing_bfill(tele_clean, col):
+    tele_clean[col] = tele_clean[col].fillna(method='bfill')
+    return tele_clean[col]
+
+tele_clean['diag_1'] = fix_missing_ffill(tele_clean, 'diag_1')
+tele_clean['diag_2'] = fix_missing_ffill(tele_clean, 'diag_2')
+tele_clean['diag_3'] = fix_missing_ffill(tele_clean, 'diag_3')
+
+# fill 'race' column with mode 
+#tele_clean['race'] = df_clean['race'].fillna(df_clean['race'].mode()[0])
+
+
+# In[41]:
+
+
+from sklearn.preprocessing import MinMaxScaler
+
+minmax_scaler = MinMaxScaler()
+
+# generate 1000 data points randomly drawn from an exponential distribution
+tele = pd.DataFrame(np.random.exponential(200, size=2000))
+
+tele.sample(5)
+
+
+# In[43]:
+
+
+tele[0].min(), tele[0].max()
+
+
+# In[47]:
+
+
+# mix-max scale the data between 0 and 1
+import matplotlib.pyplot as plt
+def scaler(tele):
+    scaled_data = minmax_scaler.fit_transform(tele)
+
+    # plot both together to compare
+    fig, ax = plt.subplots(1,2, figsize=(10, 6))
+    sns.histplot(tele, ax=ax[0])
+    ax[0].set_title("Original Data")
+    sns.histplot(scaled_data, ax=ax[1])
+    ax[1].set_title("Scaled data")
+    
+scaler(tele)
+
+
+# Normal sdistrbutions
+
+# In[48]:
+
+
+from sklearn.preprocessing import Normalizer
+
+def normalizer(tele):
+    norm = Normalizer()
+    # normalize the exponential data with boxcox
+    normalized_data = norm.fit_transform(tele)
+
+    # plot both together to compare
+    fig, ax=plt.subplots(1,2, figsize=(10, 6))
+    sns.histplot(tele, ax=ax[0])
+    ax[0].set_title("Original Data")
+    sns.histplot(normalized_data[0], ax=ax[1])
+    ax[1].set_title("Normalized data")
+
+normalizer(tele)
+
+
+# In[49]:
+
+
+# check datatypes
+tele_clean.info()
+
+
+# It continue 
 
 # In[ ]:
 
