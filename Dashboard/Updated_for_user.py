@@ -12,15 +12,10 @@ import sys
 
 def app():
 
-    st.title("Telecommunication User Experience Analysis")
+    st.title("Telecom_Data_Analysis_Temp")
 
-    df_avgThr = pd.read_csv('data/top10avgThroughput.csv')
-    df_rtt = pd.read_csv('data/top10rtt.csv')
-    df_tcp = pd.read_csv('data/top10tcp.csv')
-    df_frqThr = pd.read_csv('data/most_freqAvgThr.csv')
-    df_frqrtt = pd.read_csv('data/most_freqRTT.csv')
-    df_frqtcp = pd.read_csv('data/most_freqTCP.csv')
-
+    df_avgThr = pd.read_csv("C:\Users\Genet Shanko\Telecom_Data_Analysis_Temp\Data\Week1_challenge_data_source(CSV).csv"
+                            
     st.header("Top 10 Telcom Users Experience analysis")
     st.subheader("Average Throughput")
     st.dataframe(df_avgThr)
@@ -47,8 +42,8 @@ def app():
     st.dataframe(df_frqtcp)
     st.bar_chart(df_frqtcp['0'])
 
-    st.header("Cluster with 3 Group Classification")
-    st.image('data/clusterExp.png')
+    st.header("Cluster user data int three Classification")
+    st.image('data/cluster_user.png')
 
 
 # In[ ]:

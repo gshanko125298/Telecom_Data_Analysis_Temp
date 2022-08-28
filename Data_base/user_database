@@ -1,0 +1,2 @@
+create database Teleocom_user;
+create table Telecom_user(ID int, name varchar);
